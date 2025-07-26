@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICKStudio AI Configuration</title>
+    <style>
+        :root {
+            --primary-color: #007acc;
+            --secondary-color: #ce9178;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --border-radius: 8px;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--vscode-font-family), 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--vscode-editor-background);
+            color: var(--vscode-editor-foreground);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--vscode-editorGroup-border);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: var(--vscode-editor-foreground);
+        }
+
+        .header p {
+            font-size: 16px;
+            color: var(--vscode-descriptionForeground);
+            margin: 0;
+        }
+
+        .config-section {
+            background: var(--vscode-editorWidget-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            color: var(--vscode-editor-foreground);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--vscode-editor-foreground);
+        }
+
+        .form-description {
+            font-size: 12px;
+            color: var(--vscode-descriptionForeground);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--vscode-input-border);
+            border-radius: 4px;
+            background: var(--vscode-input-background);
+            color: var(--vscode-input-foreground);
+            font-size: 14px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+        }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder,
+        textarea::placeholder {
+            color: var(--vscode-input-placeholderForeground);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .provider-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .provider-option {
+            background: var(--vscode-editor-background);
+            border: 2px solid var(--vscode-editorWidget-border);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .provider-option:hover {
+            border-color: var(--primary-color);
+            background: var(--vscode-list-hoverBackground);
+        }
+
+        .provider-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(0, 122, 204, 0.1);
+        }
+
+        .provider-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--vscode-editor-foreground);
+        }
+
+        .provider-description {
+            font-size: 12px;
+            color: var(--vscode-descriptionForeground);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #005a9e;
+        }
+
+        .btn-secondary {
+            background: var(--vscode-button-secondaryBackground);
+            color: var(--vscode-button-secondaryForeground);
+            border: 1px solid var(--vscode-button-secondaryBackground);
+        }
+
+        .btn-secondary:hover {
+            background: var(--vscode-button-hoverBackground);
+        }
+
+        .btn-test {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-test:hover {
+            background: #45a049;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .status-success {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .status-error {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .status-warning {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .collapsible {
+            margin-top: 20px;
+        }
+
+        .collapsible-header {
+            background: var(--vscode-editor-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 4px;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .collapsible-header:hover {
+            background: var(--vscode-list-hoverBackground);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            background: var(--vscode-editorWidget-background);
+        }
+
+        .collapsible-content.show {
+            display: block;
+        }
+
+        .collapsible-arrow {
+            transition: transform 0.2s ease;
+        }
+
+        .collapsible-arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .auth-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .auth-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .auth-info {
+            flex: 1;
+        }
+
+        .auth-name {
+            font-weight: 500;
+            color: var(--vscode-editor-foreground);
+        }
+
+        .auth-email {
+            font-size: 12px;
+            color: var(--vscode-descriptionForeground);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--vscode-editorWidget-border);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .provider-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AICKStudio AI Configuration</h1>
+            <p>Configure your AI providers and authentication settings</p>
+        </div>
+
+        <!-- LLM Provider Selection -->
+        <div class="config-section">
+            <div class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                AI Provider Selection
+            </div>
+            
+            <div class="provider-selector">
+                <div class="provider-option" data-provider="azure_openai">
+                    <div class="provider-name">Azure OpenAI</div>
+                    <div class="provider-description">Enterprise-grade OpenAI with Azure integration</div>
+                </div>
+                <div class="provider-option" data-provider="openai">
+                    <div class="provider-name">OpenAI</div>
+                    <div class="provider-description">Direct access to OpenAI's latest models</div>
+                </div>
+                <div class="provider-option" data-provider="gemini">
+                    <div class="provider-name">Google Gemini</div>
+                    <div class="provider-description">Google's advanced AI model</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Azure AD Authentication -->
+        <div class="config-section">
+            <div class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                </svg>
+                Company Authentication
+            </div>
+               <!-- Toggle for enabling/disabling Azure AD Authentication -->
+                <div class="form-group">
+                    <label for="ad-auth-enabled">
+                        <input type="checkbox" id="ad-auth-enabled" />
+                        Enable Azure AD Authentication
+                    </label>
+                    <div class="form-description">Toggle Azure AD Authentication on or off</div>
+                </div>
+
+            <div class="form-group">
+                <label for="tenant-id">Azure AD Tenant ID</label>
+                <div class="form-description">Your organization's Azure Active Directory tenant identifier</div>
+                <input type="text" id="tenant-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+            </div>
+            
+            <div class="form-group">
+                <label for="client-id">Azure AD Client ID</label>
+                <div class="form-description">Application (client) ID from Azure AD app registration</div>
+                <input type="text" id="client-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+            </div>
+            
+            <div class="form-group">
+                <label for="redirect-uri">Redirect URI</label>
+                <div class="form-description">Configured redirect URI in your Azure AD app</div>
+                <input type="text" id="redirect-uri" placeholder="http://localhost:3000/auth/callback">
+            </div>
+            
+            <div class="form-group">
+                <label for="resource">Resource URI</label>
+                <div class="form-description">Azure resource URI (e.g., for Azure OpenAI)</div>
+                <input type="text" id="resource" placeholder="https://cognitiveservices.azure.com/">
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="authenticate-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                    </svg>
+                    Authenticate
+                </button>
+            </div>
+            
+            <div id="ad-auth-status"></div>
+        </div>
+
+        <!-- Provider-specific configurations -->
+        <div id="azure-openai-config" class="config-section hidden">
+            <div class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+                Azure OpenAI Configuration
+            </div>
+            
+            <div class="form-group">
+                <label for="azure-api-key">API Key</label>
+                <input type="password" id="azure-api-key" placeholder="Enter your Azure OpenAI API key">
+            </div>
+            
+            <div class="form-group">
+                <label for="azure-endpoint">Endpoint URL</label>
+                <input type="text" id="azure-endpoint" placeholder="https://your-resource.openai.azure.com/">
+            </div>
+            
+            <div class="form-group">
+                <label for="azure-model">Model Name</label>
+                <input type="text" id="azure-model" placeholder="gpt-4o" value="gpt-4o">
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-test" id="test-azure">Test Connection</button>
+            </div>
+            
+            <div id="azure-status"></div>
+        </div>
+
+        <div id="openai-config" class="config-section hidden">
+            <div class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+                OpenAI Configuration
+            </div>
+            
+            <div class="form-group">
+                <label for="openai-api-key">API Key</label>
+                <input type="password" id="openai-api-key" placeholder="sk-...">
+            </div>
+            
+            <div class="form-group">
+                <label for="openai-model">Model</label>
+                <select id="openai-model">
+                    <option value="gpt-4o">GPT-4o</option>
+                    <option value="gpt-4">GPT-4</option>
+                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                </select>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-test" id="test-openai">Test Connection</button>
+            </div>
+            
+            <div id="openai-status"></div>
+        </div>
+
+        <div id="gemini-config" class="config-section hidden">
+            <div class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+                Google Gemini Configuration
+            </div>
+            
+            <div class="form-group">
+                <label for="gemini-api-key">API Key</label>
+                <input type="password" id="gemini-api-key" placeholder="Enter your Gemini API key">
+            </div>
+            
+            <div class="form-group">
+                <label for="gemini-model">Model</label>
+                <select id="gemini-model">
+                    <option value="gemini-pro">Gemini Pro</option>
+                    <option value="gemini-pro-vision">Gemini Pro Vision</option>
+                </select>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-test" id="test-gemini">Test Connection</button>
+            </div>
+            
+            <div id="gemini-status"></div>
+        </div>
+
+        <!-- Advanced Settings -->
+        <div class="collapsible">
+            <div class="collapsible-header" id="advanced-header">
+                <span>Advanced Settings</span>
+                <span class="collapsible-arrow">▼</span>
+            </div>
+            <div class="collapsible-content" id="advanced-content">
+                <div class="form-group">
+                    <label for="tavily-key">Tavily Search API Key</label>
+                    <div class="form-description">For web search functionality</div>
+                    <input type="password" id="tavily-key" placeholder="Enter Tavily API key">
+                </div>
+                
+                <div class="form-group">
+                    <label for="telemetry-key">Application Insights Key</label>
+                    <div class="form-description">For telemetry and analytics</div>
+                    <input type="text" id="telemetry-key" placeholder="Enter instrumentation key">
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group" style="margin-top: 32px;">
+            <button class="btn btn-primary" id="save-config">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                </svg>
+                Save Configuration
+            </button>
+            <button class="btn btn-secondary" id="reset-config">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+                Reset to Defaults
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+        
+        // DOM elements
+        const providerOptions = document.querySelectorAll('.provider-option');
+        const configSections = {
+            'azure_openai': document.getElementById('azure-openai-config'),
+            'openai': document.getElementById('openai-config'),
+            'gemini': document.getElementById('gemini-config')
+        };
+        
+        let currentProvider = 'azure_openai';
+        
+        // Provider selection
+        providerOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const provider = option.dataset.provider;
+                selectProvider(provider);
+            });
+        });
+        
+        function selectProvider(provider) {
+            // Update UI
+            providerOptions.forEach(opt => opt.classList.remove('selected'));
+            document.querySelector(`[data-provider="${provider}"]`).classList.add('selected');
+            
+            // Show/hide config sections
+            Object.values(configSections).forEach(section => section.classList.add('hidden'));
+            if (configSections[provider]) {
+                configSections[provider].classList.remove('hidden');
+            }
+            
+            currentProvider = provider;
+        }
+        
+        // Advanced settings toggle
+        document.getElementById('advanced-header').addEventListener('click', () => {
+            const content = document.getElementById('advanced-content');
+            const arrow = document.querySelector('.collapsible-arrow');
+            
+            content.classList.toggle('show');
+            arrow.classList.toggle('rotated');
+        });
+        
+        // Test connection buttons
+        document.getElementById('test-azure')?.addEventListener('click', () => testConnection('azure_openai'));
+        document.getElementById('test-openai')?.addEventListener('click', () => testConnection('openai'));
+        document.getElementById('test-gemini')?.addEventListener('click', () => testConnection('gemini'));
+        
+        function testConnection(provider) {
+            const config = getProviderConfig(provider);
+            const statusDiv = document.getElementById(`${provider.replace('_', '-')}-status`);
+            
+            statusDiv.innerHTML = '<div class="status-indicator"><span class="loading"></span> Testing connection...</div>';
+            
+            vscode.postMessage({
+                command: 'testConnection',
+                provider: provider,
+                config: config
+            });
+        }
+        
+        function getProviderConfig(provider) {
+            switch (provider) {
+                case 'azure_openai':
+                    return {
+                        apiKey: document.getElementById('azure-api-key').value,
+                        endpoint: document.getElementById('azure-endpoint').value,
+                        modelName: document.getElementById('azure-model').value
+                    };
+                case 'openai':
+                    return {
+                        apiKey: document.getElementById('openai-api-key').value,
+                        modelName: document.getElementById('openai-model').value
+                    };
+                case 'gemini':
+                    return {
+                        apiKey: document.getElementById('gemini-api-key').value,
+                        modelName: document.getElementById('gemini-model').value
+                    };
+                default:
+                    return {};
+            }
+        }
+        
+        // Authentication
+        document.getElementById('authenticate-btn').addEventListener('click', () => {
+            const config = {
+                enabled: document.getElementById('ad-auth-enabled').checked,
+                tenantId: document.getElementById('tenant-id').value,
+                clientId: document.getElementById('client-id').value,
+                redirectUri: document.getElementById('redirect-uri').value,
+                resource: document.getElementById('resource').value
+            };
+            
+            vscode.postMessage({
+                command: 'authenticateAD',
+                config: config
+            });
+        });
+        
+        // Save configuration
+        document.getElementById('save-config').addEventListener('click', () => {
+            const config = {
+                llmProvider: currentProvider,
+                adAuth: {
+                    enabled: document.getElementById('ad-auth-enabled').checked,
+                    tenantId: document.getElementById('tenant-id').value,
+                    clientId: document.getElementById('client-id').value,
+                    redirectUri: document.getElementById('redirect-uri').value,
+                    resource: document.getElementById('resource').value
+                },
+                azureOpenAI: {
+                    apiKey: document.getElementById('azure-api-key').value,
+                    endpoint: document.getElementById('azure-endpoint').value,
+                    modelName: document.getElementById('azure-model').value
+                },
+                openai: {
+                    apiKey: document.getElementById('openai-api-key').value,
+                    modelName: document.getElementById('openai-model').value
+                },
+                gemini: {
+                    apiKey: document.getElementById('gemini-api-key').value,
+                    modelName: document.getElementById('gemini-model').value
+                },
+                tavily: {
+                    apiKey: document.getElementById('tavily-key').value
+                },
+                telemetry: {
+                    instrumentationKey: document.getElementById('telemetry-key').value
+                }
+            };
+            
+            vscode.postMessage({
+                command: 'saveConfiguration',
+                config: config
+            });
+        });
+        
+        // Reset configuration
+        document.getElementById('reset-config').addEventListener('click', () => {
+            vscode.postMessage({
+                command: 'resetToDefaults'
+            });
+        });
+        
+        // Handle messages from extension
+        window.addEventListener('message', event => {
+            const message = event.data;
+            
+            switch (message.command) {
+                case 'configurationLoaded':
+                    loadConfiguration(message.config);
+                    break;
+                case 'connectionTestResult':
+                    handleConnectionTestResult(message.result);
+                    break;
+                case 'adAuthResult':
+                    handleAuthResult(message.result);
+                    break;
+            }
+        });
+        
+        function loadConfiguration(config) {
+            // Set provider
+            selectProvider(config.llmProvider || 'azure_openai');
+            
+            // Load AD auth settings
+            document.getElementById('tenant-id').value = config.adAuth?.tenantId || '';
+            document.getElementById('client-id').value = config.adAuth?.clientId || '';
+            document.getElementById('redirect-uri').value = config.adAuth?.redirectUri || '';
+            document.getElementById('resource').value = config.adAuth?.resource || '';
+            document.getElementById('ad-auth-enabled').checked = (config.adAuth?.enabled !== false); // default true if undefined
+            
+            // Load provider configs
+            document.getElementById('azure-api-key').value = config.azureOpenAI?.apiKey || '';
+            document.getElementById('azure-endpoint').value = config.azureOpenAI?.endpoint || '';
+            document.getElementById('azure-model').value = config.azureOpenAI?.modelName || 'gpt-4o';
+            
+            document.getElementById('openai-api-key').value = config.openai?.apiKey || '';
+            document.getElementById('openai-model').value = config.openai?.modelName || 'gpt-4o';
+            
+            document.getElementById('gemini-api-key').value = config.gemini?.apiKey || '';
+            document.getElementById('gemini-model').value = config.gemini?.modelName || 'gemini-pro';
+            
+            // Load advanced settings
+            document.getElementById('tavily-key').value = config.tavily?.apiKey || '';
+            document.getElementById('telemetry-key').value = config.telemetry?.instrumentationKey || '';
+        }
+        
+        function handleConnectionTestResult(result) {
+            const provider = currentProvider.replace('_', '-');
+            const statusDiv = document.getElementById(`${provider}-status`);
+            
+            if (result.success) {
+                statusDiv.innerHTML = '<div class="status-indicator status-success">✅ Connection successful!</div>';
+            } else {
+                statusDiv.innerHTML = `<div class="status-indicator status-error">❌ ${result.error}</div>`;
+            }
+        }
+        
+        function handleAuthResult(result) {
+            const statusDiv = document.getElementById('ad-auth-status');
+            
+            if (result.success) {
+                statusDiv.innerHTML = `
+                    <div class="auth-status">
+                        <div class="auth-avatar">${result.userInfo?.displayName?.charAt(0) || 'U'}</div>
+                        <div class="auth-info">
+                            <div class="auth-name">${result.userInfo?.displayName || 'User'}</div>
+                            <div class="auth-email">${result.userInfo?.mail || result.userInfo?.userPrincipalName || ''}</div>
+                        </div>
+                        <div class="status-indicator status-success">✅ Authenticated</div>
+                    </div>
+                `;
+            } else {
+                statusDiv.innerHTML = `<div class="status-indicator status-error">❌ ${result.error}</div>`;
+            }
+        }
+        
+        // Initialize
+        selectProvider('azure_openai');
+        
+        // Request current configuration
+        vscode.postMessage({ command: 'loadConfiguration' });
+        const adAuthEnabledCheckbox = document.getElementById('ad-auth-enabled');
+const adAuthInputs = [
+    document.getElementById('tenant-id'),
+    document.getElementById('client-id'),
+    document.getElementById('redirect-uri'),
+    document.getElementById('resource')
+];
+
+function toggleAdAuthInputs() {
+    const enabled = adAuthEnabledCheckbox.checked;
+    adAuthInputs.forEach(input => input.disabled = !enabled);
+}
+
+adAuthEnabledCheckbox.addEventListener('change', toggleAdAuthInputs);
+
+// Call once on load after loading config
+toggleAdAuthInputs();
+    </script>
+</body>
+</html>
+

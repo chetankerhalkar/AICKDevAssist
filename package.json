@@ -1,0 +1,445 @@
+{
+  "name": "AICKStudio-ai-vscode",
+  "displayName": "AICKStudio AI",
+  "description": "AI-powered development assistant with multi-LLM support, intelligent chat interface, and automated workflows",
+  "version": "2.0.0",
+  "publisher": "AICKStudioDigital",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "Snippets",
+    "Education"
+  ],
+  "keywords": [
+    "ai",
+    "assistant",
+    "openai",
+    "azure",
+    "gemini",
+    "chat",
+    "code-generation",
+    "documentation",
+    "pull-request",
+    "automation"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:AICKStudioAI.configureSettingsDevFix"
+  ],
+  "main": "./out/src/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "AICKStudio AI",
+      "properties": {
+        "AICKStudioAI.llmProvider": {
+          "type": "string",
+          "enum": [
+            "azure_openai",
+            "openai",
+            "gemini"
+          ],
+          "default": "azure_openai",
+          "description": "Select the LLM provider to use"
+        },
+        "AICKStudioAI.azureOpenAI.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Azure OpenAI API Key"
+        },
+        "AICKStudioAI.azureOpenAI.endpoint": {
+          "type": "string",
+          "default": "",
+          "description": "Azure OpenAI Endpoint URL"
+        },
+        "AICKStudioAI.azureOpenAI.modelName": {
+          "type": "string",
+          "default": "gpt-4o",
+          "description": "Azure OpenAI Model Name"
+        },
+        "AICKStudioAI.openai.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API Key"
+        },
+        "AICKStudioAI.openai.modelName": {
+          "type": "string",
+          "enum": [
+            "gpt-4o",
+            "gpt-4",
+            "gpt-3.5-turbo"
+          ],
+          "default": "gpt-4o",
+          "description": "OpenAI Model Name"
+        },
+        "AICKStudioAI.gemini.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Google Gemini API Key"
+        },
+        "AICKStudioAI.gemini.modelName": {
+          "type": "string",
+          "enum": [
+            "gemini-pro",
+            "gemini-pro-vision"
+          ],
+          "default": "gemini-pro",
+          "description": "Gemini Model Name"
+        },
+        "AICKStudioAI.tavily.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Tavily Search API Key"
+        },
+        "AICKStudioAI.adAuth.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable Azure AD Authentication for the extension."
+        },
+        "AICKStudioAI.adAuth.tenantId": {
+          "type": "string",
+          "default": "",
+          "description": "Azure AD Tenant ID"
+        },
+        "AICKStudioAI.adAuth.clientId": {
+          "type": "string",
+          "default": "",
+          "description": "Azure AD Client ID"
+        },
+        "AICKStudioAI.adAuth.redirectUri": {
+          "type": "string",
+          "default": "",
+          "description": "Azure AD Redirect URI"
+        },
+        "AICKStudioAI.adAuth.resource": {
+          "type": "string",
+          "default": "",
+          "description": "Azure AD Resource URI (e.g., for Azure OpenAI)"
+        },
+        "AICKStudioAI.telemetry.instrumentationKey": {
+          "type": "string",
+          "default": "",
+          "description": "Application Insights Instrumentation Key"
+        },
+        "AICKStudioAI.azure.sql.server": {
+          "type": "string",
+          "default": "",
+          "description": "Azure SQL Server"
+        },
+        "AICKStudioAI.azure.sql.database": {
+          "type": "string",
+          "default": "",
+          "description": "Azure SQL Database"
+        },
+        "AICKStudioAI.azure.sql.user": {
+          "type": "string",
+          "default": "",
+          "description": "Azure SQL Username"
+        },
+        "AICKStudioAI.azure.sql.password": {
+          "type": "string",
+          "default": "",
+          "description": "Azure SQL Password"
+        },
+        "AICKStudioAI.weaviate.host": {
+          "type": "string",
+          "default": "",
+          "description": "Weaviate Host"
+        },
+        "AICKStudioAI.weaviate.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Weaviate API Key"
+        },
+        "AICKStudioAI.debug": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable debug logging"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "AICKStudioAI.authenticate",
+        "title": "Authenticate",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "extension.openChat",
+        "title": "Open Chat",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.configureSettingsDevFix",
+        "title": "Configure Settings",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.askAICKStudioOne",
+        "title": "Ask AICKStudio AI",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.editSelectionWithAI",
+        "title": "Edit Selection with AI",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateUnitTest",
+        "title": "Generate Unit Test",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.explainCode",
+        "title": "Explain Code",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.codeReview",
+        "title": "Code Review",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateComments",
+        "title": "Generate Comments",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.securityScan",
+        "title": "Security Scan",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.analyzeCodeComplexity",
+        "title": "Analyze Code Complexity",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.translateCode",
+        "title": "Translate Code",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateCodeDocs",
+        "title": "Generate Code Documentation",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateApiDocs",
+        "title": "Generate API Documentation",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateProjectStructure",
+        "title": "Generate Project Structure",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateDockerfile",
+        "title": "Generate Dockerfile",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateKubernetesManifest",
+        "title": "Generate Kubernetes Manifest",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateCiCdPipeline",
+        "title": "Generate CI/CD Pipeline",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateGitignore",
+        "title": "Generate .gitignore",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateLicense",
+        "title": "Generate License",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateSqlQuery",
+        "title": "Generate SQL Query",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.executeSqlQuery",
+        "title": "Execute SQL Query",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.semanticSearch",
+        "title": "Semantic Search",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.explainError",
+        "title": "Explain Error",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.explainRegex",
+        "title": "Explain Regular Expression",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateTestData",
+        "title": "Generate Test Data",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateCodeSnippet",
+        "title": "Generate Code Snippet",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateCommitMessage",
+        "title": "Generate Commit Message",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.generateReleaseNotes",
+        "title": "Generate Release Notes",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.manageMetadata",
+        "title": "Manage Metadata",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.preprocessData",
+        "title": "Preprocess Data",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.realTimeCollaboration",
+        "title": "Real-time Collaboration",
+        "category": "AICKStudio AI"
+      },
+      {
+        "command": "AICKStudioAI.codeMigration",
+        "title": "Code Migration",
+        "category": "AICKStudio AI"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorHasSelection",
+          "command": "AICKStudioAI.explainCode",
+          "group": "AICKStudioAI@1"
+        },
+        {
+          "when": "editorHasSelection",
+          "command": "AICKStudioAI.editSelectionWithAI",
+          "group": "AICKStudioAI@2"
+        },
+        {
+          "when": "editorHasSelection",
+          "command": "AICKStudioAI.generateUnitTest",
+          "group": "AICKStudioAI@3"
+        },
+        {
+          "when": "editorHasSelection",
+          "command": "AICKStudioAI.codeReview",
+          "group": "AICKStudioAI@4"
+        },
+        {
+          "when": "editorHasSelection",
+          "command": "AICKStudioAI.generateComments",
+          "group": "AICKStudioAI@5"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "AICKStudioAI.generateProjectStructure",
+          "group": "AICKStudioAI@1"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "extension.openChat",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f"
+      },
+      {
+        "command": "AICKStudioAI.askAICKStudioOne",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "lint:fix": "eslint src --ext ts --fix",
+    "test": "node ./out/test/runTest.js",
+    "test:coverage": "nyc npm run test",
+    "test:integration": "npm run test -- --grep \"Integration\"",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "type-check": "tsc --noEmit",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "analyze": "webpack-bundle-analyzer out/extension.js",
+    "bundle-report": "webpack --analyze",
+    "profile:memory": "node --inspect ./out/extension.js",
+    "profile:cpu": "node --prof ./out/extension.js"
+  },
+  "devDependencies": {
+    "@types/diff": "^7.0.2",
+    "@types/mssql": "^9.1.7",
+    "@types/node": "^24.0.3",
+    "@types/tedious": "^4.0.14",
+    "@types/vscode": "^1.84.0",
+    "@types/ws": "^8.18.1",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "@vscode/test-electron": "^2.1.5",
+    "@vscode/vsce": "^2.15.0",
+    "eslint": "^8.20.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.0.25",
+    "@langchain/google-genai": "^0.0.8",
+    "@langchain/langgraph": "^0.0.11",
+    "@langchain/openai": "^0.0.14",
+    "@vscode/extension-telemetry": "^0.8.0",
+    "applicationinsights": "^2.7.0",
+    "axios": "^1.4.0",
+    "diff": "^5.1.0",
+    "dotenv": "^16.5.0",
+    "marked": "^5.1.1",
+    "mssql": "^9.1.1",
+    "node-fetch": "^3.3.1",
+    "weaviate-ts-client": "^1.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AICKStudiodigital/AICKStudioonevscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AICKStudiodigital/AICKStudioonevscode/issues"
+  },
+  "homepage": "https://github.com/AICKStudiodigital/AICKStudioonevscode#readme",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#007acc",
+    "theme": "dark"
+  }
+}

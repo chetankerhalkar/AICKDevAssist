@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICKStudio AI Chat</title>
+    <style>
+        :root {
+            --primary-color: #007acc;
+            --secondary-color: #ce9178;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --border-radius: 8px;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--vscode-font-family), 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--vscode-editor-background);
+            color: var(--vscode-editor-foreground);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--vscode-editorGroup-border);
+            background: var(--vscode-editorWidget-background);
+            min-height: 50px;
+        }
+
+        .chat-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--vscode-editor-foreground);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .clear-chat-btn {
+            background: transparent;
+            border: 1px solid var(--vscode-button-secondaryBackground);
+            color: var(--vscode-button-secondaryForeground);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .clear-chat-btn:hover {
+            background: var(--vscode-button-hoverBackground);
+        }
+
+        .agent-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .dropdown-btn:hover {
+            background: var(--vscode-button-hoverBackground);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: var(--vscode-editorWidget-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            min-width: 200px;
+            margin-top: 4px;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--vscode-editorGroup-border);
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--vscode-list-hoverBackground);
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: var(--vscode-descriptionForeground);
+        }
+
+        .empty-state-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+
+        .empty-state h2 {
+            font-size: 24px;
+            font-weight: 400;
+            margin: 0 0 12px 0;
+            color: var(--vscode-editor-foreground);
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .suggestions {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 400px;
+        }
+
+        .suggestion-item {
+            background: var(--vscode-editorWidget-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 6px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .suggestion-item:hover {
+            background: var(--vscode-list-hoverBackground);
+            border-color: var(--primary-color);
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background-color: var(--vscode-editorWidget-background);
+            color: var(--vscode-editor-foreground);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.ai pre {
+            background-color: var(--vscode-editor-background);
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: var(--vscode-editor-font-family), monospace;
+            margin: 8px 0;
+        }
+
+        .message.ai code {
+            font-family: var(--vscode-editor-font-family), monospace;
+            background-color: var(--vscode-editor-background);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .input-area {
+            display: flex;
+            padding: 16px 20px;
+            border-top: 1px solid var(--vscode-editorGroup-border);
+            background: var(--vscode-editorWidget-background);
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .input-container {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .input-area textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--vscode-input-border);
+            border-radius: 20px;
+            background: var(--vscode-input-background);
+            color: var(--vscode-input-foreground);
+            font-size: 14px;
+            resize: none;
+            min-height: 44px;
+            max-height: 120px;
+            overflow-y: auto;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .input-area textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+        }
+
+        .input-area textarea::placeholder {
+            color: var(--vscode-input-placeholderForeground);
+        }
+
+        .send-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .send-button:hover {
+            background: #005a9e;
+        }
+
+        .send-button:disabled {
+            background: var(--vscode-button-secondaryBackground);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .typing-indicator {
+            align-self: flex-start;
+            padding: 12px 16px;
+            border-radius: 18px;
+            background-color: var(--vscode-editorWidget-background);
+            color: var(--vscode-editor-foreground);
+            border: 1px solid var(--vscode-editorWidget-border);
+            font-style: italic;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-bottom-left-radius: 4px;
+            font-size: 14px;
+        }
+
+        .typing-indicator.active {
+            opacity: 1;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .dropdown-arrow {
+            font-size: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .dropdown-arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Scrollbar styling */
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: var(--vscode-scrollbarSlider-background);
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: var(--vscode-scrollbarSlider-background);
+            border-radius: 4px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: var(--vscode-scrollbarSlider-hoverBackground);
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-header">
+        <div class="chat-title">AICKStudio AI</div>
+        <div class="header-actions">
+            <button class="clear-chat-btn" id="clear-chat">Clear Chat</button>
+            <div class="agent-dropdown">
+                <button class="dropdown-btn" id="agent-dropdown-btn">
+                    Agents
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="dropdown-content" id="agent-dropdown">
+                    <div class="dropdown-item" data-agent="chat">💬 Chat</div>
+                    <div class="dropdown-item" data-agent="websearch">🔍 Web Search</div>
+                    <div class="dropdown-item" data-agent="readme">📝 Generate README</div>
+                    <div class="dropdown-item" data-agent="pullrequest">🔄 Create Pull Request</div>
+                    <div class="dropdown-item" data-agent="explain">💡 Explain Code</div>
+                    <div class="dropdown-item" data-agent="review">🔍 Code Review</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-container" id="chat-container">
+        <div class="empty-state" id="empty-state">
+            <svg class="empty-state-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <h2>Ask AICKStudio</h2>
+            <p>AICKStudio is powered by AI, so mistakes are possible. Review output carefully before use.</p>
+            <p>📎 or type # to attach context</p>
+            <p>@ to chat with extensions</p>
+            <p>Type / to use commands</p>
+            
+            <div class="suggestions">
+                <div class="suggestion-item" data-suggestion="/fix the problems in my code">
+                    /fix the problems in my code
+                </div>
+                <div class="suggestion-item" data-suggestion="/tests add unit tests for my code">
+                    /tests add unit tests for my code
+                </div>
+                <div class="suggestion-item" data-suggestion="/explain how the selected code works">
+                    /explain how the selected code works
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="typing-indicator" id="typing-indicator">
+        AICKStudio is typing<span>.</span><span>.</span><span>.</span>
+    </div>
+
+    <div class="input-area">
+        <div class="input-container">
+            <textarea id="chat-input" placeholder="Ask AICKStudio..."></textarea>
+        </div>
+        <button class="send-button" id="send-button">➤</button>
+    </div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+        const chatContainer = document.getElementById("chat-container");
+        const chatInput = document.getElementById("chat-input");
+        const sendButton = document.getElementById("send-button");
+        const typingIndicator = document.getElementById("typing-indicator");
+        const clearChatButton = document.getElementById("clear-chat");
+        const emptyState = document.getElementById("empty-state");
+        const agentDropdownBtn = document.getElementById("agent-dropdown-btn");
+        const agentDropdown = document.getElementById("agent-dropdown");
+        const dropdownArrow = agentDropdownBtn.querySelector(".dropdown-arrow");
+
+        let messageHistory = [];
+        let currentAgent = "chat";
+
+        // Agent dropdown functionality
+        agentDropdownBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            agentDropdown.classList.toggle("show");
+            dropdownArrow.classList.toggle("rotated");
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", () => {
+            agentDropdown.classList.remove("show");
+            dropdownArrow.classList.remove("rotated");
+        });
+
+        // Agent selection
+        agentDropdown.addEventListener("click", (e) => {
+            if (e.target.classList.contains("dropdown-item")) {
+                const agent = e.target.dataset.agent;
+                currentAgent = agent;
+                agentDropdownBtn.innerHTML = `${e.target.textContent} <span class="dropdown-arrow">▼</span>`;
+                agentDropdown.classList.remove("show");
+                dropdownArrow.classList.remove("rotated");
+                
+                // Update placeholder based on selected agent
+                updatePlaceholder(agent);
+            }
+        });
+
+        function updatePlaceholder(agent) {
+            const placeholders = {
+                chat: "Ask AICKStudio...",
+                websearch: "Search the web...",
+                readme: "Generate README for current project...",
+                pullrequest: "Create pull request description...",
+                explain: "Select code and ask for explanation...",
+                review: "Select code for review..."
+            };
+            chatInput.placeholder = placeholders[agent] || "Ask AICKStudio...";
+        }
+
+        function addMessage(sender, text) {
+            // Hide empty state when first message is added
+            if (messageHistory.length === 0) {
+                emptyState.style.display = "none";
+            }
+
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", sender);
+            
+            if (sender === "ai") {
+                // Simple markdown-like parsing for AI messages
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+                text = text.replace(/```([\\s\\S]*?)```/g, '<pre><code>$1</code></pre>');
+            }
+            
+            messageDiv.innerHTML = text;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            messageHistory.push({ sender, text });
+        }
+
+        function showTypingIndicator() {
+            typingIndicator.classList.add("active");
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            typingIndicator.classList.remove("active");
+        }
+
+        sendButton.addEventListener("click", () => {
+            sendMessage();
+        });
+
+        chatInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        chatInput.addEventListener("input", () => {
+            chatInput.style.height = "auto";
+            chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + "px";
+            
+            // Enable/disable send button based on input
+            sendButton.disabled = !chatInput.value.trim();
+        });
+
+        clearChatButton.addEventListener("click", () => {
+            chatContainer.innerHTML = "";
+            messageHistory = [];
+            emptyState.style.display = "flex";
+            chatContainer.appendChild(emptyState);
+        });
+
+        // Suggestion clicks
+        document.addEventListener("click", (e) => {
+            if (e.target.classList.contains("suggestion-item")) {
+                const suggestion = e.target.dataset.suggestion;
+                chatInput.value = suggestion;
+                chatInput.focus();
+                sendButton.disabled = false;
+            }
+        });
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (text) {
+                addMessage("user", text);
+                chatInput.value = "";
+                chatInput.style.height = "auto";
+                sendButton.disabled = true;
+                showTypingIndicator();
+
+                // Send message with current agent context
+                vscode.postMessage({
+                    command: getCommandForAgent(currentAgent),
+                    text: text,
+                    agent: currentAgent
+                });
+            }
+        }
+
+        function getCommandForAgent(agent) {
+            const commands = {
+                chat: "ask",
+                websearch: "search",
+                readme: "generateReadme",
+                pullrequest: "createPullRequest",
+                explain: "ask", // Will be handled with special prompt
+                review: "ask"   // Will be handled with special prompt
+            };
+            return commands[agent] || "ask";
+        }
+
+        window.addEventListener("message", (event) => {
+            const message = event.data;
+            switch (message.command) {
+                case "response":
+                    hideTypingIndicator();
+                    addMessage("ai", message.text);
+                    break;
+            }
+        });
+
+        // Initialize
+        sendButton.disabled = true;
+        updatePlaceholder(currentAgent);
+    </script>
+</body>
+</html>
+
