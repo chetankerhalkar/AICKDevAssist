@@ -11,37 +11,37 @@
 
 ### 🧠 Chat with AI  
 Interact with the AI in real-time for explanations, suggestions, and refactoring tips.  
-![Chat Demo](https://github.com/chetankerhalkar/AICKDevAssist/chat-demo.gif)
+![Chat Demo]([https://github.com/chetankerhalkar/AICKDevAssist/chat-demo.gif](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/chat-demo.gif))
 
 ---
 
 ### 🧾 Explain Any Code  
 Right-click and get detailed explanations with one click.  
-![Explain Code](https://github.com/chetankerhalkar/AICKDevAssist/explain-code.gif)
+![Explain Code]([https://github.com/chetankerhalkar/AICKDevAssist/explain-code.gif](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/explain-code.gif))
 
 ---
 
 ### 📚 Auto-Generate README  
 Generate full project documentation in seconds.  
-![Generate README](https://github.com/chetankerhalkar/AICKDevAssist/generate-readme.gif)
+![Generate README]([https://github.com/chetankerhalkar/AICKDevAssist/generate-readme.gif](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/generate-readme.gif))
 
 ---
 
 ### 🔁 Pull Request Assistant  
 Write pull request descriptions with AI-powered insights.  
-![PR Assistant](https://github.com/chetankerhalkar/AICKDevAssist/pr-assistant.gif)
+![PR Assistant]([https://github.com/chetankerhalkar/AICKDevAssist/pr-assistant.gif](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/pr-assistant.gif))
 
 ---
 
 ### ✅ Code Review on Demand  
 Ask AI to assess selected code for bugs, performance, and best practices.  
-![Code Review](https://github.com/chetankerhalkar/AICKDevAssist/code-review.gif)
+![Code Review]([https://github.com/chetankerhalkar/AICKDevAssist/code-review.gif](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/code-review.gif))
 
 ---
 
 ### ⚙️ Smart Settings Config  
 Easily set up Azure AD, LLMs, and telemetry via the visual UI.  
-![Settings Config](https://github.com/chetankerhalkar/AICKDevAssist/settings-config.gif)
+![Settings Config]([https://github.com/chetankerhalkar/AICKDevAssist/settings-config.gif](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/settings-config.gif))
 
 ## 🚀 Key Features
 
