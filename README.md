@@ -11,7 +11,7 @@
 
 ### 🧠 Chat with AI  
 Interact with the AI in real-time for explanations, suggestions, and refactoring tips.  
-![Chat Demo]([https://github.com/chetankerhalkar/AICKDevAssist/chat-demo.gif](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/chat-demo.gif))
+![Chat Demo](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/chat-demo.gif)
 
 ---
 
