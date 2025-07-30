@@ -11,7 +11,7 @@
 
 ### 🧠 Chat with AI  
 Interact with the AI in real-time for explanations, suggestions, and refactoring tips.  
-![Chat Demo] med
+![Chat Demo] (media/chat-demo.gif)
 
 ---
 
