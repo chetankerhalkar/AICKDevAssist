@@ -11,33 +11,33 @@
 
 ### 🧠 Chat with AI  
 Interact with the AI in real-time for explanations, suggestions, and refactoring tips.  
-![chat] (https://github.com/chetankerhalkar/AICKDevAssist/blob/main/chat-demo.gif)
+![chat](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/chat-demo.gif?raw=true)
 ---
 
 ### 🧾 Explain Any Code  
 Right-click and get detailed explanations with one click.  
-![Explain Code](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/explain-code.gif)
+![Explain Code](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/explain-code.gif?raw=true)
 ---
 
 ### 📚 Auto-Generate README  
-Generate full project documentation in seconds. 
-![Generate README](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/generate-readme.gif)
+Generate full project documentation in seconds.  
+![Generate README](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/generate-readme.gif?raw=true)
 ---
 
 ### 🔁 Pull Request Assistant  
 Write pull request descriptions with AI-powered insights.  
-![PR Assistant](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/pr-assistant.gif)
+![PR Assistant](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/pr-assistant.gif?raw=true)
 ---
 
 ### ✅ Code Review on Demand  
 Ask AI to assess selected code for bugs, performance, and best practices.  
-![Code Review](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/code-review.gif)
+![Code Review](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/code-review.gif?raw=true)
 ---
 
 ### ⚙️ Smart Settings Config  
 Easily set up Azure AD, LLMs, and telemetry via the visual UI.  
-![Settings Config](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/settings-config.gif)
-----
+![Settings Config](https://github.com/chetankerhalkar/AICKDevAssist/blob/main/settings-config.gif?raw=true)
+---
 
 ## 🚀 Key Features
 
