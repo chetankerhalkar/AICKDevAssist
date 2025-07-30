@@ -435,6 +435,12 @@
   "bugs": {
     "url": "https://github.com/chetankerhalkar/AICKDevAssist/issues"
   },
+  "files": [
+  "out",
+  "media",
+  "README.md",
+  "package.json"
+],
   "homepage": "https://github.com/chetankerhalkar/AICKDevAssist#readme",
   "license": "MIT",
   "icon": "AICKLogo.png",
