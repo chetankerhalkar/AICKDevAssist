@@ -122,7 +122,7 @@ export class AzureADAuthenticator {
         const params = new URLSearchParams({
             client_id: config.clientId,
             response_type: 'code',
-            redirect_uri: config.redirectUri || 'vscode://AICKStudiodigital.AICKStudio-ai-vscode/auth',
+            redirect_uri: config.redirectUri || 'vscode://AICKStudio.AICKStudio-ai-vscode/auth',
             response_mode: 'query',
             scope: 'openid profile User.Read',
             state: this.generateState()
@@ -195,7 +195,7 @@ export class AzureADAuthenticator {
                 client_id: config.clientId,
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: config.redirectUri || 'vscode://AICKStudiodigital.AICKStudio-ai-vscode/auth',
+                redirect_uri: config.redirectUri || 'vscode://AICKStudio.AICKStudio-ai-vscode/auth',
                 scope: 'openid profile User.Read'
             });
 

@@ -92,7 +92,7 @@ export function getADAuthConfig(): ADAAuthConfig | null {
 
     const tenantId = config.get<string>('adAuth.tenantId', '');
     const clientId = config.get<string>('adAuth.clientId', '');
-    const redirectUri = config.get<string>('adAuth.redirectUri', 'vscode://AICKStudiodigital.AICKStudio-ai-vscode/auth');
+    const redirectUri = config.get<string>('adAuth.redirectUri', 'vscode://AICKStudio.AICKStudio-ai-vscode/auth');
     const resource = config.get<string>('adAuth.resource', '');
 
     if (tenantId && clientId) {

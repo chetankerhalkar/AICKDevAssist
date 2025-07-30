@@ -1,6 +1,6 @@
 # AICKStudio AI VS Code Extension
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://marketplace.visualstudio.com/items?itemName=AICKStudioDigital.AICKStudio-ai-vscode)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://marketplace.visualstudio.com/items?itemName=AICKStudio.AICKStudio-ai-vscode)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.60.0+-orange.svg)](https://code.visualstudio.com/)
 [![Azure AD](https://img.shields.io/badge/Azure%20AD-Supported-blue.svg)](https://azure.microsoft.com/en-us/services/active-directory/)
@@ -71,7 +71,7 @@
 
 ### Manual Installation
 
-1. Download the latest `.vsix` file from [Releases](https://github.com/AICKStudiodigital/AICKStudioonevscode/releases)
+1. Download the latest `.vsix` file from [Releases](https://github.com/AICKStudio/AICKStudioonevscode/releases)
 2. Open VS Code
 3. Press `Ctrl+Shift+P` to open Command Palette
 4. Type "Extensions: Install from VSIX"
@@ -122,7 +122,7 @@ AICKStudio AI supports enterprise authentication through Azure Active Directory,
 2. **Configure Azure AD Settings**:
    - **Tenant ID**: Your organization's Azure AD tenant identifier
    - **Client ID**: Application (client) ID from Azure AD app registration
-   - **Redirect URI**: `vscode://AICKStudiodigital.AICKStudio-ai-vscode/auth`
+   - **Redirect URI**: `vscode://AICKStudio.AICKStudio-ai-vscode/auth`
    - **Resource URI**: Optional resource scope (e.g., Azure OpenAI endpoint)
 
 3. **Authenticate**:
@@ -138,7 +138,7 @@ To set up Azure AD authentication, your IT administrator needs to:
    - Navigate to Azure Active Directory → App registrations
    - Click "New registration"
    - Set name: "AICKStudio AI VS Code Extension"
-   - Set redirect URI: `vscode://AICKStudiodigital.AICKStudio-ai-vscode/auth`
+   - Set redirect URI: `vscode://AICKStudio.AICKStudio-ai-vscode/auth`
 
 2. **Configure Permissions**:
    - Add Microsoft Graph permissions: `User.Read`, `openid`, `profile`
@@ -555,13 +555,11 @@ Debug logs are available in:
 
 ### Getting Help
 
-**Documentation**: Comprehensive guides available at [docs.AICKStudio.digital](https://docs.AICKStudio.digital)
-
 **Community Support**: Join our community forum for peer assistance and feature discussions
 
-**Enterprise Support**: Contact support@AICKStudio.digital for enterprise-specific assistance
+**Enterprise Support**: Contact info@AICKStudio.ai for enterprise-specific assistance
 
-**Issue Reporting**: Report bugs and feature requests on [GitHub Issues](https://github.com/AICKStudiodigital/AICKStudioonevscode/issues)
+**Issue Reporting**: Report bugs and feature requests on [GitHub Issues](https://github.com/chetankerhalkar/AICKDevAssist/issues)
 
 ## 🤝 Contributing
 
@@ -571,7 +569,7 @@ We welcome contributions from the community! Whether you're fixing bugs, adding 
 
 1. **Clone Repository**:
    ```bash
-   git clone https://github.com/AICKStudiodigital/AICKStudioonevscode.git
+   git clone https://github.com/chetankerhalkar/AICKDevAssist.git
    cd AICKStudioonevscode
    ```
 
@@ -650,5 +648,5 @@ The MIT license permits commercial use, modification, and distribution. Enterpri
 
 **Ready to transform your development workflow with AI?** Install AICKStudio AI today and experience the future of intelligent code assistance.
 
-[Install from VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=AICKStudioDigital.AICKStudio-ai-vscode) | [View on GitHub](https://github.com/AICKStudiodigital/AICKStudioonevscode) | [Documentation](https://docs.AICKStudio.digital)
+[Install from VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=AICKStudio.AICKStudio-ai-vscode) | [View on GitHub](https://github.com/chetankerhalkar/AICKDevAssist) 
 

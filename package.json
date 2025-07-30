@@ -1,9 +1,9 @@
 {
-  "name": "AICKStudio-ai-vscode",
+  "name": "AICKStudioDevAssist",
   "displayName": "AICKStudio AI",
   "description": "AI-powered development assistant with multi-LLM support, intelligent chat interface, and automated workflows",
-  "version": "2.0.0",
-  "publisher": "AICKStudioDigital",
+  "version": "1.0.0",
+  "publisher": "AICKStudio",
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -430,14 +430,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AICKStudiodigital/AICKStudioonevscode.git"
+    "url": "https://github.com/chetankerhalkar/AICKDevAssist.git"
   },
   "bugs": {
-    "url": "https://github.com/AICKStudiodigital/AICKStudioonevscode/issues"
+    "url": "https://github.com/chetankerhalkar/AICKDevAssist/issues"
   },
-  "homepage": "https://github.com/AICKStudiodigital/AICKStudioonevscode#readme",
+  "homepage": "https://github.com/chetankerhalkar/AICKDevAssist#readme",
   "license": "MIT",
-  "icon": "icon.png",
+  "icon": "AICKLogo.png",
   "galleryBanner": {
     "color": "#007acc",
     "theme": "dark"
