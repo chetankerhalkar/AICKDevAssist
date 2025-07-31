@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import * as dotenv from 'dotenv';
 import * as http from 'http';
 import * as url from 'url';
 import * as path from 'path';
@@ -20,7 +19,6 @@ import { AICKStudioAIConfigurationProvider } from '../src/configurationProvider'
 import { AzureADAuthenticator, getAuthenticationStatus } from '../src/adAuth';
 import * as os from 'os';
 
-dotenv.config();
 
 // Global variables for backward compatibility
 let authToken: string | null = null;
@@ -74,7 +72,7 @@ export async function activate(context: vscode.ExtensionContext) {
     });
 
     // Register chat command
-    const openChatCommand = vscode.commands.registerCommand('extension.openChat', async () => {
+    const openChatCommand = vscode.commands.registerCommand('AICKStudioAI.openChat', async () => {
         // Check if user is authenticated (if AD auth is configured)
         const llmConfigCheck = getLLMConfig();
         const adConfig = getADAuthConfig();

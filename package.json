@@ -1,5 +1,5 @@
 {
-  "name": "AICKStudioDevAssist",
+  "name": "aickstudiodevassist",
   "displayName": "AICKStudio AI",
   "description": "AI-powered development assistant with multi-LLM support, intelligent chat interface, and automated workflows",
   "version": "1.0.0",
@@ -26,8 +26,7 @@
     "automation"
   ],
   "activationEvents": [
-    "onStartupFinished",
-    "onCommand:AICKStudioAI.configureSettingsDevFix"
+    "onStartupFinished"
   ],
   "main": "./out/src/extension.js",
   "contributes": {
@@ -167,7 +166,7 @@
         "category": "AICKStudio AI"
       },
       {
-        "command": "extension.openChat",
+        "command": "AICKStudioAI.openChat",
         "title": "Open Chat",
         "category": "AICKStudio AI"
       },
@@ -364,9 +363,9 @@
     },
     "keybindings": [
       {
-        "command": "extension.openChat",
-        "key": "ctrl+shift+f",
-        "mac": "cmd+shift+f"
+        "command": "AICKStudioAI.openChat",
+        "key": "ctrl+shift+o",
+        "mac": "cmd+shift+o"
       },
       {
         "command": "AICKStudioAI.askAICKStudioOne",
@@ -422,11 +421,11 @@
     "applicationinsights": "^2.7.0",
     "axios": "^1.4.0",
     "diff": "^5.1.0",
-    "dotenv": "^16.5.0",
     "marked": "^5.1.1",
     "mssql": "^9.1.1",
     "node-fetch": "^3.3.1",
-    "weaviate-ts-client": "^1.4.0"
+    "weaviate-ts-client": "^1.4.0",
+    "ws": "^8.18.3"
   },
   "repository": {
     "type": "git",
@@ -435,12 +434,6 @@
   "bugs": {
     "url": "https://github.com/chetankerhalkar/AICKDevAssist/issues"
   },
-  "files": [
-  "out",
-  "media",
-  "README.md",
-  "package.json"
-],
   "homepage": "https://github.com/chetankerhalkar/AICKDevAssist#readme",
   "license": "MIT",
   "icon": "AICKLogo.png",

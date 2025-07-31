@@ -90,7 +90,7 @@ After installation, AICKStudio AI will prompt you to configure your settings:
 
 ### 2. First Chat
 
-1. **Open Chat**: Press `Ctrl+Shift+F` or run "AICKStudio AI: Open Chat"
+1. **Open Chat**: Press `Ctrl+Shift+o` or run "AICKStudio AI: Open Chat"
 2. **Start Conversation**: Type your question and press Enter
 3. **Explore Features**: Try the action buttons for specialized tasks
 
@@ -364,7 +364,7 @@ Automate the creation of detailed, professional pull request descriptions.
 
 | Command | Description | Keyboard Shortcut |
 |---------|-------------|-------------------|
-| `AICKStudio AI: Open Chat` | Launch the AI chat interface | `Ctrl+Shift+F` |
+| `AICKStudio AI: Open Chat` | Launch the AI chat interface | `Ctrl+Shift+o` |
 | `AICKStudio AI: Ask AICKStudio AI` | Quick AI query with input box | `Ctrl+Shift+A` |
 | `AICKStudio AI: Configure Settings` | Open configuration UI | - |
 | `AICKStudio AI: Authenticate` | Authenticate with Azure AD | - |
@@ -401,7 +401,7 @@ Automate the creation of detailed, professional pull request descriptions.
 
 ### Default Shortcuts
 
-- **Open Chat**: `Ctrl+Shift+F` (Windows/Linux), `Cmd+Shift+F` (Mac)
+- **Open Chat**: `Ctrl+Shift+o` (Windows/Linux), `Cmd+Shift+o` (Mac)
 - **Quick Ask**: `Ctrl+Shift+A` (Windows/Linux), `Cmd+Shift+A` (Mac)
 
 ### Customization
